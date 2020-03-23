@@ -1,0 +1,19 @@
+# Eclipse
+.classpath
+.project
+.settings/
+
+# Intellij
+.idea/
+*.iml
+*.iws
+
+#compile
+bin/
+out/
+
+#build tool
+/target/
+/.gradle/
+/.mvn/
+/build/
