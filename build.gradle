@@ -1,7 +1,8 @@
 plugins {
     id 'java'
-    id 'com.github.johnrengelman.shadow' version '5.2.0'
+    id 'jacoco'
     id "org.sonarqube" version "2.7"
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
 }
 
 group 'org.example'
@@ -10,12 +11,35 @@ version '1.0-SNAPSHOT'
 sourceCompatibility = 1.11
 targetCompatibility = 11
 
+apply plugin: 'jacoco'
+
 repositories {
     mavenCentral()
 }
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+jacoco {
+    toolVersion = "0.8.5"
+}
+
+//configure jacoco task. XML report are for sonarquebe, html one are when devleopping without sonarqube.
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        csv.enabled false
+        html.destination file("${buildDir}/jacocoHtml")
+    }
+    //removing classes from jacoco coverage (html only)
+    afterEvaluate {
+        classDirectories.from = files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+                    'fr/lemaile/morpion/model**'
+            ])
+        })
+    }
 }
 
 //configuring sonar access
@@ -26,7 +50,9 @@ sonarqube {
         property "sonar.login", "5b3ed4d06fc538ccf8cd687e445aed4c3c8d6675" //EXC
 //        property "sonar.login", "5f16dadac80fbd3663dda9f99e2bf487f1269351" //PER
         //configuring sonar exclusions.
-        property 'sonar.coverage.exclusions', []
+        property 'sonar.coverage.exclusions', [
+                "**/morpion/model/*",
+        ]
         property "sonar.jacoco.reportPath", "build/jacoco/test.exec"
     }
 }
