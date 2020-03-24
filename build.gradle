@@ -1,11 +1,14 @@
 plugins {
     id 'java'
+    id 'com.github.johnrengelman.shadow' version '5.2.0'
+    id "org.sonarqube" version "2.7"
 }
 
 group 'org.example'
 version '1.0-SNAPSHOT'
 
-sourceCompatibility = 1.8
+sourceCompatibility = 1.11
+targetCompatibility = 11
 
 repositories {
     mavenCentral()
@@ -14,3 +17,31 @@ repositories {
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
 }
+
+//configuring sonar access
+sonarqube {
+    properties {
+        property "sonar.projectKey", "NoughtAndCrosses"
+        property "sonar.host.url", "http://localhost:9000"
+        property "sonar.login", "5b3ed4d06fc538ccf8cd687e445aed4c3c8d6675" //EXC
+//        property "sonar.login", "5f16dadac80fbd3663dda9f99e2bf487f1269351" //PER
+        //configuring sonar exclusions.
+        property 'sonar.coverage.exclusions', []
+        property "sonar.jacoco.reportPath", "build/jacoco/test.exec"
+    }
+}
+
+//configuring manifest jar file.
+jar {
+    manifest {
+        attributes(
+                'Project-Title': project.name,
+                'Manifest-Version': archiveVersion,
+                'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
+                'Main-Class': 'fr.lemaile.morpion.AppMain',
+        )
+    }
+}
+
+//this is to build the uber jar after the normal jar.
+tasks.build.dependsOn tasks.shadowJar
