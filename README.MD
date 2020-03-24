@@ -61,8 +61,6 @@ Matthieu Lemaile
 #### 1.0
 TODO :
 * UI
-* Board : WinCheck with better cognitive complexity.
-* Board : WinCheck with Pat
 * Make Test for controller part
 
 ###### User visible
