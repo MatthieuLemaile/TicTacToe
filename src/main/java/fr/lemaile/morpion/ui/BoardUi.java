@@ -5,10 +5,10 @@ import fr.lemaile.morpion.model.Player;
 
 import java.util.List;
 
-public interface Board {
+public interface BoardUi {
     void updateBoard(List<Box> boxes, Player playingPlayer);
 
-    void won();
+    void won(Player wonPlayer);
 
     void pat();
 }

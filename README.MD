@@ -1,4 +1,4 @@
-# Morpion
+# TicTacToe
 
 This project is a nought and crosses (tic-tac-toe) in java. It has no real purpose other than learning some things in Java for me.
 
@@ -59,6 +59,14 @@ Matthieu Lemaile
 ## Release History
 
 #### 1.0
+TODO :
+* UI
+* Board : WinCheck with better cognitive complexity.
+* Board : WinCheck with Pat
+* Make Test for controller part
+
 ###### User visible
+* Playable Tic-Tac-Toe, with minimalist interface
 
 ###### Dev Part
+* Structure creation.
