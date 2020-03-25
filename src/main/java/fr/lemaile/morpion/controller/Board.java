@@ -37,7 +37,7 @@ public class Board implements BoardListener {
     @Override
     public void updateBox(int boxNumber) {
         moveCount++;
-        Player playingPlayer = currentPlayer;
+        Player playingPlayer = new Player(currentPlayer);
         boxes.get(boxNumber).setSymbol(playingPlayer.getSymbol());
         if (currentPlayer.equals(playerOne)) {
             currentPlayer = playerTwo;
@@ -95,6 +95,7 @@ public class Board implements BoardListener {
                 break;
             default:
         }
+        //TODO Refacto this to check 9 move before switching, and so ending function faster, avoid unnecessary calculus.
         if (won) {
             boardUi.won(evaluatedPlayer);
         } else {

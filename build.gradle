@@ -17,8 +17,14 @@ repositories {
     mavenCentral()
 }
 
+test {
+    useTestNG()
+}
+
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
+    testCompile group: 'org.testng', name: 'testng', version: '7.1.0'
+    testCompile group: 'org.mockito', name: 'mockito-core', version: '2.10.0'
+    testCompile group: 'org.mockito', name: 'mockito-testng', version: '0.1.1'
 }
 
 jacoco {
@@ -29,6 +35,7 @@ jacoco {
 jacocoTestReport {
     reports {
         xml.enabled true
+        html.enabled true
         csv.enabled false
         html.destination file("${buildDir}/jacocoHtml")
     }
@@ -36,7 +43,8 @@ jacocoTestReport {
     afterEvaluate {
         classDirectories.from = files(classDirectories.files.collect {
             fileTree(dir: it, exclude: [
-                    'fr/lemaile/morpion/model**'
+                    'fr/lemaile/morpion/model**',
+                    'fr/lemaile/morpion/AppMain*'
             ])
         })
     }
@@ -52,6 +60,7 @@ sonarqube {
         //configuring sonar exclusions.
         property 'sonar.coverage.exclusions', [
                 "**/morpion/model/*",
+                "**/morpion/AppMain*",
         ]
         property "sonar.jacoco.reportPath", "build/jacoco/test.exec"
     }
