@@ -61,7 +61,6 @@ Matthieu Lemaile
 #### 1.0
 TODO :
 * UI
-* One TODO in Board
 
 ###### User visible
 * Playable Tic-Tac-Toe, with minimalist interface

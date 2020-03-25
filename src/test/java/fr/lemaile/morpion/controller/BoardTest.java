@@ -383,4 +383,47 @@ public class BoardTest {
         Mockito.verify(boardUi, Mockito.never()).pat();
         Mockito.verify(boardUi, Mockito.times(1)).won(playerTwoCaptor.getValue());
     }
+
+    @Test
+    void update_box_should_win_last_move() {
+        // O O X X O X O X X
+        Mockito.doNothing().when(boardUi).updateBoard(Mockito.anyList(), currentPlayerCaptor.capture());
+        board.updateBox(2);
+        board.updateBox(0);
+        board.updateBox(5);
+        board.updateBox(1);
+        board.updateBox(3);
+        board.updateBox(4);
+        board.updateBox(7);
+        board.updateBox(6);
+        board.updateBox(8);
+
+        Mockito.verify(boardUi, Mockito.times(10)).updateBoard(Mockito.eq(boxesCaptor.getValue()), Mockito.any(Player.class));
+        List<Player> players = currentPlayerCaptor.getAllValues();
+        Assert.assertEquals(9, players.size());
+        Assert.assertEquals(9, boxesCaptor.getValue().size());
+        //The first to play after the first time played is the second player
+        Assert.assertEquals(playerTwoCaptor.getValue(), players.get(0));
+        Assert.assertEquals(playerOneCaptor.getValue(), players.get(1));
+        Assert.assertEquals(playerTwoCaptor.getValue(), players.get(2));
+        Assert.assertEquals(playerOneCaptor.getValue(), players.get(3));
+        Assert.assertEquals(playerTwoCaptor.getValue(), players.get(4));
+        Assert.assertEquals(playerOneCaptor.getValue(), players.get(5));
+        Assert.assertEquals(playerTwoCaptor.getValue(), players.get(6));
+        Assert.assertEquals(playerOneCaptor.getValue(), players.get(7));
+        Assert.assertEquals(playerTwoCaptor.getValue(), players.get(8));
+
+        Assert.assertEquals(Symbol.NOUGHT, boxesCaptor.getValue().get(0).getSymbol());
+        Assert.assertEquals(Symbol.NOUGHT, boxesCaptor.getValue().get(1).getSymbol());
+        Assert.assertEquals(Symbol.CROSS, boxesCaptor.getValue().get(2).getSymbol());
+        Assert.assertEquals(Symbol.CROSS, boxesCaptor.getValue().get(3).getSymbol());
+        Assert.assertEquals(Symbol.NOUGHT, boxesCaptor.getValue().get(4).getSymbol());
+        Assert.assertEquals(Symbol.CROSS, boxesCaptor.getValue().get(5).getSymbol());
+        Assert.assertEquals(Symbol.NOUGHT, boxesCaptor.getValue().get(6).getSymbol());
+        Assert.assertEquals(Symbol.CROSS, boxesCaptor.getValue().get(7).getSymbol());
+        Assert.assertEquals(Symbol.CROSS, boxesCaptor.getValue().get(8).getSymbol());
+
+        Mockito.verify(boardUi, Mockito.never()).pat();
+        Mockito.verify(boardUi, Mockito.times(1)).won(playerOneCaptor.getValue());
+    }
 }

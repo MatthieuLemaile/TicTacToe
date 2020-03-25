@@ -95,7 +95,6 @@ public class Board implements BoardListener {
                 break;
             default:
         }
-        //TODO Refacto this to check 9 move before switching, and so ending function faster, avoid unnecessary calculus.
         if (won) {
             boardUi.won(evaluatedPlayer);
         } else {
